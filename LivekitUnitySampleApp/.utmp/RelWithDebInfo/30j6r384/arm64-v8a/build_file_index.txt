@@ -1,0 +1,2 @@
+/Users/virnect/Documents/workspace/unity-example/LivekitUnitySampleApp/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/src/main/cpp/CMakeLists.txt
+/Users/virnect/Documents/workspace/unity-example/LivekitUnitySampleApp/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/src/main/cpp/FramePacing/CMakeLists.txt
