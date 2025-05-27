@@ -1,14 +1,18 @@
 {
   "dependencies": {
-    "com.unity.collab-proxy": "2.2.0",
-    "com.unity.feature.2d": "2.0.0",
-    "com.unity.ide.rider": "3.0.27",
-    "com.unity.ide.visualstudio": "2.0.22",
-    "com.unity.test-framework": "1.1.33",
-    "com.unity.textmeshpro": "3.0.6",
-    "com.unity.timeline": "1.7.6",
-    "com.unity.ugui": "1.0.0",
-    "com.unity.visualscripting": "1.9.1",
+    "com.unity.collab-proxy": "2.8.1",
+    "com.unity.feature.2d": "2.0.1",
+    "com.unity.ide.rider": "3.0.36",
+    "com.unity.ide.visualstudio": "2.0.23",
+    "com.unity.mobile.android-logcat": "1.4.5",
+    "com.unity.multiplayer.center": "1.0.0",
+    "com.unity.test-framework": "1.5.1",
+    "com.unity.timeline": "1.8.7",
+    "com.unity.ugui": "2.0.0",
+    "com.unity.visualscripting": "1.9.6",
+    "com.virnect.dataprovider.platformserveradapter": "file:/Users/virnect/Documents/workspace/PlatformServerAdapter/Assets/PlatformServerAdapter",
+    "io.livekit.livekit-sdk": "file:/Users/virnect/Documents/workspace/client-sdk-unity",
+    "com.unity.modules.accessibility": "1.0.0",
     "com.unity.modules.ai": "1.0.0",
     "com.unity.modules.androidjni": "1.0.0",
     "com.unity.modules.animation": "1.0.0",
@@ -40,5 +44,15 @@
     "com.unity.modules.vr": "1.0.0",
     "com.unity.modules.wind": "1.0.0",
     "com.unity.modules.xr": "1.0.0"
-  }
+  },
+  "scopedRegistries": [
+    {
+      "name": "Virnect",
+      "url": "http://192.168.0.210:4873",
+      "scopes": [
+        "com.virnect"
+      ],
+      "overrideBuiltIns": true
+    }
+  ]
 }

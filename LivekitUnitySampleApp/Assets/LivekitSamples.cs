@@ -32,6 +32,7 @@ public class LivekitSamples : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Debug.unityLogger.logEnabled = true;
     }
 
     // Update is called once per frame
@@ -192,9 +193,9 @@ public class LivekitSamples : MonoBehaviour
         {
             GameObject audObject = new GameObject(audioTrack.Sid);
             var source = audObject.AddComponent<AudioSource>();
-            var stream = new AudioStream(audioTrack, source);
+            var basicAudioSource = new BasicAudioSource(source);
             _audioObjects[audioTrack.Sid] = audObject;
-            _rtcAudioSources.Add(stream.AudioSource);
+            _rtcAudioSources.Add(basicAudioSource);
         }
     }
 
@@ -236,8 +237,8 @@ public class LivekitSamples : MonoBehaviour
         var localSid = "my-audio-source";
         GameObject audObject = new GameObject(localSid);
         _audioObjects[localSid] = audObject;
-        var rtcSource = new MicrophoneSource(audObject.AddComponent<AudioSource>());
-        rtcSource.Configure(Microphone.devices[0], true, 2, (int)RtcAudioSource.DefaultMirophoneSampleRate);
+        var rtcSource = new MicrophoneSource(Microphone.devices[0], _audioObjects[localSid]);
+        //rtcSource.Configure(Microphone.devices[0], true, 2, (int)RtcAudioSource.DefaultMirophoneSampleRate);
         Debug.Log($"CreateAudioTrack");
         var track = LocalAudioTrack.CreateAudioTrack("my-audio-track", rtcSource, room);
 
@@ -256,7 +257,7 @@ public class LivekitSamples : MonoBehaviour
         }
         
         _rtcAudioSources.Add(rtcSource);
-        yield return rtcSource.PrepareAndStart();
+        rtcSource.Start();
     }
 
     public IEnumerator publishVideo()
