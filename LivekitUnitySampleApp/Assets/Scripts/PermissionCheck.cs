@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Android;
+#if UNITY_IOS
+using UnityEngine.iOS;
+#endif
 
 public class PermissionCheck : MonoBehaviour
 {
@@ -22,6 +25,12 @@ public class PermissionCheck : MonoBehaviour
 #if UNITY_ANDROID && !UNITY_EDITOR
         AndroidJavaClass buildVersion = new AndroidJavaClass("android.os.Build$VERSION");
         sdkVersion = buildVersion.GetStatic<int>("SDK_INT");
+#endif
+// Android Audio Manager 설정 필요
+#if UNITY_ANDROID && !UNITY_EDITOR
+        AndroidJavaObject audioManager = new AndroidJavaObject("android.media.AudioManager");
+        // STREAM_VOICE_CALL 모드로 설정
+        audioManager.Call("setMode", 3); // AudioManager.MODE_IN_COMMUNICATION
 #endif
 
         SetPermissionList();
@@ -58,6 +67,16 @@ public class PermissionCheck : MonoBehaviour
         else
         {
             permissions.Add(BLUETOOTH);
+        }
+
+        foreach (var device in WebCamTexture.devices)
+        {
+            Debug.Log($"{device.name}");
+        }
+
+        foreach (var device in Microphone.devices)
+        {
+            Debug.Log($"{device}");
         }
     }
 

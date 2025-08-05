@@ -32,7 +32,6 @@ public class LivekitSamples : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.unityLogger.logEnabled = true;
     }
 
     // Update is called once per frame
@@ -88,7 +87,7 @@ public class LivekitSamples : MonoBehaviour
 
     IEnumerator MakeCall()
     {
-        if(room == null)
+        if (room == null)
         {
             room = new Room();
             room.TrackSubscribed += TrackSubscribed;
@@ -103,7 +102,6 @@ public class LivekitSamples : MonoBehaviour
                 UpdateStatusText("Connected");
             }
         }
-        
     }
 
     void CleanUp()
@@ -187,15 +185,22 @@ public class LivekitSamples : MonoBehaviour
     {
         if (track is RemoteVideoTrack videoTrack)
         {
+            Debug.Log("VideoTrackSubscribed: " + videoTrack.Sid);
             AddVideoTrack(videoTrack);
         }
         else if (track is RemoteAudioTrack audioTrack)
         {
+            Debug.Log("audioTrackSubscribed: " + audioTrack.Sid);
             GameObject audObject = new GameObject(audioTrack.Sid);
             var source = audObject.AddComponent<AudioSource>();
-            var basicAudioSource = new BasicAudioSource(source);
+            var stream = new AudioStream(audioTrack, source);
+
+            Debug.Log($"audioTrack Muted : {audioTrack.Muted}");
+
+            source.volume = 1.0f;
+            source.spatialBlend = 0.0f; // 2D sound
+
             _audioObjects[audioTrack.Sid] = audObject;
-            _rtcAudioSources.Add(basicAudioSource);
         }
     }
 
@@ -232,22 +237,20 @@ public class LivekitSamples : MonoBehaviour
 
     public IEnumerator publishMicrophone()
     {
+        Debug.Log($"Microphone devices Length : {Microphone.devices.Length}");
         Debug.Log("publicMicrophone!");
         // Publish Microphone
         var localSid = "my-audio-source";
         GameObject audObject = new GameObject(localSid);
         _audioObjects[localSid] = audObject;
         var rtcSource = new MicrophoneSource(Microphone.devices[0], _audioObjects[localSid]);
-        //rtcSource.Configure(Microphone.devices[0], true, 2, (int)RtcAudioSource.DefaultMirophoneSampleRate);
-        Debug.Log($"CreateAudioTrack");
         var track = LocalAudioTrack.CreateAudioTrack("my-audio-track", rtcSource, room);
 
         var options = new TrackPublishOptions();
         options.AudioEncoding = new AudioEncoding();
-        options.AudioEncoding.MaxBitrate = 64000;
+        options.AudioEncoding.MaxBitrate = 32000;
         options.Source = TrackSource.SourceMicrophone;
 
-        Debug.Log("PublishTrack!");
         var publish = room.LocalParticipant.PublishTrack(track, options);
         yield return publish;
 
@@ -255,8 +258,7 @@ public class LivekitSamples : MonoBehaviour
         {
             Debug.Log("Track published!");
         }
-        
-        _rtcAudioSources.Add(rtcSource);
+
         rtcSource.Start();
     }
 
